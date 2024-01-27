@@ -1,0 +1,12 @@
+# This zig-specific build artifacts.
+**/zig-cache/
+**/zig-out/
+**/release/
+**/debug/
+**/build/
+**/build-*/
+**/docgen_tmp/
+
+# Zig install folder
+/zig/*
+!/zig/activate

@@ -1,0 +1,16 @@
+{
+  "name": "Zig",
+  "dockerFile": "Dockerfile",
+  "settings": {},
+  "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined", "--volume=${localWorkspaceFolder}:/workspaces/${localWorkspaceFolderBasename}:Z" ],
+  "workspaceMount": "",
+  "remoteUser": "vscode",
+  "features": {
+    "git": "os-provided"
+  },
+  "postStartCommand": "mkdir -p build && cd build && cmake .. -DCMAKE_PREFIX_PATH=/usr/lib/llvm-15 && make",
+  "extensions": [
+    "ms-vscode.cmake-tools",
+    "llvm-vs-code-extensions.vscode-clangd"
+  ]
+}
