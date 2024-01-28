@@ -30,7 +30,7 @@ pub fn main() !void {
                 break;
             }
         }
-        try stdout.print("{d}\n", .{val});
+        // try stdout.print("{d}\n", .{val});
         sum += val;
     }
 
