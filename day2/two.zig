@@ -1,5 +1,9 @@
 const std = @import("std");
 
+const MAX_RED = 12;
+const MAX_GREEN = 13;
+const MAX_BLUE = 14;
+
 pub fn main() !void {
     var file = try std.fs.cwd().openFile("input", .{});
     defer file.close();
@@ -7,61 +11,46 @@ pub fn main() !void {
     var buf_reader = std.io.bufferedReader(file.reader());
     var in_stream = buf_reader.reader();
 
-    var buf: [1024]u8 = undefined;
-    var sum: u32 = 0;
+    var buf: [256]u8 = undefined;
+    var sum: u64 = 0;
     const stdout = std.io.getStdOut().writer();
-    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
-    defer arena.deinit();
 
-    var number_map = std.StringHashMap(u32).init(arena.allocator());
-    try number_map.put("one", 1);
-    try number_map.put("two", 2);
-    try number_map.put("three", 3);
-    try number_map.put("four", 4);
-    try number_map.put("five", 5);
-    try number_map.put("six", 6);
-    try number_map.put("seven", 7);
-    try number_map.put("eight", 8);
-    try number_map.put("nine", 9);
-
-    while (try in_stream.readUntilDelimiterOrEof(&buf, '\n')) |line| {
-        var val: u32 = 0;
-        line: for (line, 0..) |c, i| {
-            if (std.ascii.isDigit(c)) {
-                const b = [1]u8{c};
-                val += try std.fmt.parseUnsigned(u32, &b, 10) * 10;
-                break;
-            }
-            for (2..5) |l| {
-                if (i >= l) {
-                    if (number_map.get(line[i - l .. i + 1])) |n| {
-                        val += n * 10;
-                        break :line;
-                    }
+    while (line: {
+        var fixed_buf = std.io.fixedBufferStream(&buf);
+        if (in_stream.streamUntilDelimiter(fixed_buf.writer(), '\n', buf.len)) {
+            break :line fixed_buf.getWritten();
+        } else |err| switch (err) {
+            error.EndOfStream => {
+                break :line null;
+            },
+            else => |leftover_err| return leftover_err,
+        }
+    }) |line| {
+        // Split the game id from it's content
+        var iter = std.mem.splitScalar(u8, line, ':');
+        // Read game id
+        _ = iter.next().?; // Discard game id
+        const game_content = iter.next().?;
+        var max_red: u64 = 0;
+        var max_green: u64 = 0;
+        var max_blue: u64 = 0;
+        var cube_sets = std.mem.splitScalar(u8, game_content, ';');
+        while (cube_sets.next()) |cube_set| {
+            var cube_counts = std.mem.splitScalar(u8, cube_set, ',');
+            while (cube_counts.next()) |cube_count| {
+                var tokens = std.mem.tokenizeScalar(u8, cube_count, ' ');
+                const count = try std.fmt.parseUnsigned(u64, tokens.next().?, 10);
+                const color = tokens.next().?;
+                if (count > max_red and std.mem.eql(u8, color, "red")) {
+                    max_red = count;
+                } else if (count > max_green and std.mem.eql(u8, color, "green")) {
+                    max_green = count;
+                } else if ((count > max_blue and std.mem.eql(u8, color, "blue"))) {
+                    max_blue = count;
                 }
             }
         }
-
-        var i: usize = line.len;
-        line: while (i > 0) {
-            i -= 1;
-            var c = line[i];
-            if (std.ascii.isDigit(c)) {
-                const b = [1]u8{c};
-                val += try std.fmt.parseUnsigned(u32, &b, 10);
-                break;
-            }
-            for (3..6) |l| {
-                if (line.len - i >= l) {
-                    if (number_map.get(line[i .. i + l])) |n| {
-                        val += n;
-                        break :line;
-                    }
-                }
-            }
-        }
-        // try stdout.print("{d}\n", .{val});
-        sum += val;
+        sum += max_red * max_blue * max_green;
     }
 
     try stdout.print("{d}\n", .{sum});

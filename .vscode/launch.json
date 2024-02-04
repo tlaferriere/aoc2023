@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "lldb",
             "request": "launch",
@@ -12,6 +13,15 @@
             "args": [],
             "cwd": "${workspaceRoot}/day2",
             "preLaunchTask": "build day 2 part 1"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Day 2 part 2",
+            "program": "${workspaceFolder}/day2/zig-out/bin/two",
+            "args": [],
+            "cwd": "${workspaceRoot}/day2",
+            "preLaunchTask": "build day 2 part 2"
         },
     ]
 }

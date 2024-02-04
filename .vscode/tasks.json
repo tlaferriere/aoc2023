@@ -15,7 +15,20 @@
             "options": {
                 "cwd": "${workspaceRoot}/day2"
             }
-            
+        },
+        {
+            "label": "build day 2 part 2",
+            "type": "process",
+            "command": [
+                "../zig-nightly/zig"
+            ],
+            "args": [
+                "build",
+                "-Dbin=two"
+            ],
+            "options": {
+                "cwd": "${workspaceRoot}/day2"
+            }
         }
     ]
 }
