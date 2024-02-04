@@ -17,11 +17,22 @@ pub fn build(b: *std.Build) void {
 
     const bin = b.option([]const u8, "bin", "The name of the binary to run") orelse "one";
 
+    const root_src =
+        i: {
+        if (std.mem.eql(u8, bin, "one")) {
+            break :i "one.zig";
+        } else if (std.mem.eql(u8, bin, "two")) {
+            break :i "two.zig";
+        } else {
+            std.os.exit(1);
+        }
+    };
+
     const exe = b.addExecutable(.{
         .name = bin,
         // In this case the main source file is merely a path, however, in more
         // complicated build scripts, this could be a generated file.
-        .root_source_file = .{ .path = bin ++ ".zig" },
+        .root_source_file = .{ .path = root_src },
         .target = target,
         .optimize = optimize,
     });

@@ -10,3 +10,5 @@
 # Zig install folder
 /zig/*
 !/zig/activate
+/zig-nightly/*
+!/zig-nightly/activate
