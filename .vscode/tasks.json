@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build day 2 part 1",
+            "label": "build part 1",
             "type": "process",
             "command": [
                 "../zig-nightly/zig"
@@ -13,11 +13,11 @@
                 "build"
             ],
             "options": {
-                "cwd": "${workspaceRoot}/day2"
+                "cwd": "${workspaceRoot}/day3"
             }
         },
         {
-            "label": "build day 2 part 2",
+            "label": "build part 2",
             "type": "process",
             "command": [
                 "../zig-nightly/zig"
@@ -27,7 +27,7 @@
                 "-Dbin=two"
             ],
             "options": {
-                "cwd": "${workspaceRoot}/day2"
+                "cwd": "${workspaceRoot}/day3"
             }
         }
     ]

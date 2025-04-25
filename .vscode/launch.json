@@ -8,20 +8,20 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug day 2 part 1",
-            "program": "${workspaceFolder}/day2/zig-out/bin/one",
+            "name": "Debug part 1",
+            "program": "${workspaceFolder}/day3/zig-out/bin/one",
             "args": [],
-            "cwd": "${workspaceRoot}/day2",
-            "preLaunchTask": "build day 2 part 1"
+            "cwd": "${workspaceRoot}/day3",
+            "preLaunchTask": "build part 1"
         },
         {
             "type": "lldb",
             "request": "launch",
             "name": "Day 2 part 2",
-            "program": "${workspaceFolder}/day2/zig-out/bin/two",
+            "program": "${workspaceFolder}/day3/zig-out/bin/two",
             "args": [],
-            "cwd": "${workspaceRoot}/day2",
-            "preLaunchTask": "build day 2 part 2"
+            "cwd": "${workspaceRoot}/day3",
+            "preLaunchTask": "build part 2"
         },
     ]
 }
