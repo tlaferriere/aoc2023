@@ -1,6 +1,7 @@
 # This zig-specific build artifacts.
 **/zig-cache/
 **/zig-out/
+**/.zig-cache/
 **/release/
 **/debug/
 **/build/
